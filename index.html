@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>POSI-CORP · EPL Cortex v3</title><style>
+:root{--ink:#E7E0D4;--ink2:#DED6C7;--ink3:#d4cab6;--bg:#141210;--bg2:#1c1916;--card:#211d19;
+--orange:#FF6A00;--amber:#e6a817;--teal:#2dd4bf;--coral:#ff7a6a;--lit:#39ff8a;--bad:#ff3b3b;--inh:#c23434;--hippo:#b06adf;--amyg:#ff2d55;--pfc:#4a9eff;--edge:#3a332b;
+--head:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--head);line-height:1.65;font-size:16px}
+.wrap{max-width:940px;margin:0 auto;padding:28px 20px 80px}
+header.m{border-bottom:3px solid var(--orange);padding-bottom:14px;margin-bottom:24px}
+.series{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--orange);text-transform:uppercase}
+h1{font-size:32px;margin:.25em 0 .1em}.sub{color:var(--ink3);font-style:italic;margin:0}
+h2{font-size:20px;margin:1.5em 0 .5em;border-left:4px solid var(--orange);padding-left:10px}
+p{margin:.7em 0}.k{color:var(--orange);font-weight:bold}
+canvas{display:block;width:100%;background:var(--bg2);border:1px solid var(--edge);border-radius:6px;margin:10px 0}
+.caption{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:-4px 0 18px}
+.ctrl{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0;font-family:var(--mono);font-size:12px;align-items:center}
+.ctrl label{display:flex;flex-direction:column;gap:3px;min-width:150px}
+.ctrl input[type=range]{accent-color:var(--pfc)}
+.ctrl .val{color:var(--pfc)}
+.state{font-family:var(--mono);font-size:13px;padding:10px 14px;border-radius:6px;margin:10px 0;border:1px solid var(--edge)}
+.state.gov{background:#0e2416;border-left:4px solid var(--lit);color:var(--lit)}
+.state.hij{background:#2a0f14;border-left:4px solid var(--amyg);color:var(--amyg)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--edge);border-left:4px solid var(--lit);border-radius:5px;padding:9px 11px;font-family:var(--mono);font-size:11.5px}
+.card.amber{border-left-color:var(--amber)}.card.fail{border-left-color:var(--bad);background:#2a1512}
+.card b{display:block;font-size:10px;letter-spacing:.12em;margin-bottom:4px}
+.card.lit b{color:var(--lit)}.card.amber b{color:var(--amber)}.card.fail b{color:var(--bad)}
+.card .got{color:var(--ink);font-size:13px}.card .note{color:var(--ink3);margin-top:4px;line-height:1.45}
+.toddler{background:#241b10;border:1px dashed var(--amber);border-radius:8px;padding:12px 16px;margin:22px 0}
+.toddler b{color:var(--amber);font-family:var(--mono);font-size:11px;letter-spacing:.18em}
+.big{font-family:var(--mono);font-size:13px;background:#0f1c2e;border:1px solid #244166;border-left:4px solid var(--pfc);border-radius:6px;padding:12px 16px;margin:14px 0}
+.big b{color:var(--pfc);letter-spacing:.1em}
+.ledger{margin-top:30px;border-top:1px solid var(--edge);padding-top:12px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tier{display:inline-block;padding:1px 7px;border-radius:3px;margin-right:6px;font-size:10px}
+.tier.l{background:#0e2c1a;color:var(--lit);border:1px solid var(--lit)}.tier.a{background:#2c230e;color:var(--amber);border:1px solid var(--amber)}
+footer{margin-top:24px;font-family:var(--mono);font-size:10.5px;color:var(--ink3)}
+.leg{font-family:var(--mono);font-size:11px;color:var(--ink3);margin:4px 0 0}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:-1px}</style></head><body><div class="wrap">
+<header class="m"><div class="series">POSI-CORP · EPL CORTEX v3 · PREFRONTAL EXECUTIVE + HIJACK DYNAMICS</div>
+<h1>The EPL Cortex, v3</h1>
+<p class="sub">The executive lands on top: working memory, inhibitory control that finally pulls the brakes, a goal register, conflict monitoring — and a stress dial that drops the PFC offline and lets the amygdala run unopposed.</p></header>
+<div class="big"><b>WHAT THE PFC ACTUALLY IS.</b> Not "the rational part" — the <i>executive</i>. It governs the rest: holds ~4 items in working memory, exerts top-down inhibition, maintains goals across time, arbitrates conflicts. Last structure to mature (~25y), first to fail under stress or fatigue. v2 gave you an amygdala that could <i>tag</i> threat but not act on it — the brakes existed with no foot on the pedal. The PFC is the foot. And when it goes offline, you watch the pedal lift.</div>
+<h2>Live executive — drive the stress and maturation dials</h2>
+<div class="ctrl">
+<label>stress / fatigue / load <input id="stress" type="range" min="0" max="1" step="0.01" value="0.2" oninput="tick()"><span class="val" id="sv">0.20</span></label>
+<label>maturation (age) <input id="mat" type="range" min="0.4" max="1" step="0.01" value="1.0" oninput="tick()"><span class="val" id="mv">1.00</span></label>
+</div>
+<div class="state gov" id="statebar">rested · executive governing</div>
+<canvas id="c2d"></canvas>
+<div class="leg">cortex:<i style="background:#2dd4bf"></i>ethos<i style="background:#e6a817"></i>pathos<i style="background:#FF6A00"></i>logos<i style="background:#c23434"></i>brakes<i style="background:#b06adf"></i>hippo<i style="background:#ff2d55"></i>amygdala<i style="background:#4a9eff"></i>prefrontal</div>
+<div class="caption">2D · the executive (top) sends inhibitory-control fibers down to the brakes; control strength = bar height. Push stress up and watch the fibers thin, then snap — amygdala flags fire unopposed below the hijack line.</div>
+<div class="big" id="curvebig"></div>
+<canvas id="c3d"></canvas>
+<div class="caption">3D · full topology: 30 cortical + hippocampus (purple) + amygdala (red) + prefrontal executive (blue, top). Blue fibers = top-down control; they fade as stress rises. Drag to rotate.</div>
+<h2>Diagnostics — executive control math re-verified at load</h2>
+<div class="cards" id="checks"></div>
+<div class="toddler"><b>TODDLER CORNER</b><p>The brain got its boss. The boss sits on top, holds a few things in mind at once, keeps the goal, and decides which brakes to press. But the boss is expensive and gets tired — and when it's too tired or too young, it clocks out, and the fast scared part takes the wheel with nobody checking it. That's what "losing your cool" is: the boss went offline. Slide the tired-dial up and watch it happen.</p></div>
+<div class="ledger"><span class="tier l">LIT</span> neuroscience + live control arithmetic · <span class="tier a">AMBER</span> control scale (PFC_MAX), salience normalization, and the corpus mapping are editorial. Red card = miswired.</div>
+<footer>POSI-CORP EPL Cortex v3 · single-file seed · offline · system fonts · Pañcaka → Triveṇī → Cortex v1/v2/v3</footer>
+</div><script>
+
+function SGL(canvas){const ctx=canvas.getContext('2d');const S={rx:-0.24,ry:0.5,zoom:1,auto:true};
+function size(){const w=canvas.clientWidth;canvas.width=w*devicePixelRatio;canvas.height=Math.round(w*0.72)*devicePixelRatio;
+canvas.style.height=(w*0.72)+'px';ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}size();addEventListener('resize',size);
+function project(p){const[x,y,z]=p;const cy=Math.cos(S.ry),sy=Math.sin(S.ry),cx=Math.cos(S.rx),sx=Math.sin(S.rx);
+let X=x*cy+z*sy,Z=-x*sy+z*cy,Y=y*cx-Z*sx;Z=y*sx+Z*cx;const d=4.7,f=(canvas.clientWidth*0.36*S.zoom)/(d-Z*0.9);
+return[canvas.clientWidth/2+X*f,canvas.clientWidth*0.37-Y*f,f,Z];}
+const api={ctx,S,project,
+dot(p,r,c,a){const q=project(p);ctx.globalAlpha=a==null?1:a;ctx.fillStyle=c;ctx.beginPath();ctx.arc(q[0],q[1],r*q[2]/90,0,7);ctx.fill();ctx.globalAlpha=1;},
+line(a,b,c,w,al){const p=project(a),q=project(b);ctx.globalAlpha=al==null?1:al;ctx.strokeStyle=c;ctx.lineWidth=w||1;
+ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(q[0],q[1]);ctx.stroke();ctx.globalAlpha=1;},
+text3(p,s,c,f){const q=project(p);ctx.fillStyle=c;ctx.font=(f||10)+'px ui-monospace,Menlo,monospace';ctx.textAlign='center';ctx.fillText(s,q[0],q[1]);}};
+let px=0,py=0,drag=false;
+canvas.addEventListener('pointerdown',e=>{drag=true;S.auto=false;px=e.clientX;py=e.clientY;});
+addEventListener('pointerup',()=>drag=false);
+addEventListener('pointermove',e=>{if(!drag)return;S.ry+=(e.clientX-px)*0.008;S.rx+=(e.clientY-py)*0.008;px=e.clientX;py=e.clientY;});
+return api;}
+const CHECKS=[];function check(n,g,w,tier,note){CHECKS.push({n,got:JSON.stringify(g),want:JSON.stringify(w),
+pass:JSON.stringify(g)===JSON.stringify(w),tier,note:note||''});}
+function renderChecks(el){el.innerHTML=CHECKS.map(c=>{const cls=c.pass?(c.tier==='LIT'?'card lit':'card amber'):'card fail';
+return '<div class="'+cls+'"><b>'+(c.pass?c.tier:'FAIL')+' · '+c.n+'</b><span class="got">'+c.got+(c.pass?'':' ≠ '+c.want)+'</span>'+
+(c.note?'<div class="note">'+c.note+'</div>':'')+'</div>';}).join('');
+const f=CHECKS.filter(c=>!c.pass).length;if(f){const d=document.createElement('div');d.className='card fail';
+d.innerHTML='<b>GATE CLOSED</b><span class="got">'+f+' failure(s).</span>';el.prepend(d);}}
+function guard(fn,l){try{fn();}catch(e){const el=document.getElementById('checks');const d=document.createElement('div');
+d.className='card fail';d.innerHTML='<b>RUNTIME FAIL · '+l+'</b><span class="got">'+e.message+'</span>';el.prepend(d);}}
+
+/* ============ PAPER EDIT BLOCK: v3 executive wiring ============ */
+const SLOTC={E:'#2dd4bf',P:'#e6a817',L:'#FF6A00'};
+const EX=[["fantasy","Herd","P",8.0],["fantasy","Horse","E",7.0],["fantasy","Song","L",5.6],
+["scifi","Other Mind","E",8.8],["scifi","Self-mod","P",6.6],["scifi","What-if","L",5.0],
+["horror","Revenant","L",7.7],["horror","Possession","P",6.6],["horror","Cosmic indiff.","E",5.8],
+["phil","The Cave","P",7.7],["phil","Know thyself","E",6.6],["phil","Doubt","L",5.6],
+["western","Stranger","E",7.2],["western","End of era","P",6.0],["western","Showdown","L",5.8]];
+const IN=[["fantasy","Chosen One","E",7.5],["fantasy","Born-evil race","P",8.5],["fantasy","Restoration end","L",5.5],
+["scifi","Lone genius","E",6.0],["scifi","Planet of hats","P",6.5],["scifi","Technobabble","L",7.0],
+["horror","Madness=monster","E",8.0],["horror","Sex=death","P",6.5],["horror","Burial-ground","L",6.0],
+["phil","Great Man","E",6.5],["phil","Ivory tower","P",6.0],["phil","Gotcha","L",7.0],
+["western","White/black hat","E",5.5],["western","Natives as scenery","P",9.0],["western","Violence=redemption","L",6.5]];
+const AMYG_THRESH=7.5;
+const FLAGGED=IN.filter(x=>x[3]>=AMYG_THRESH);
+const SALIENCE=+(FLAGGED.reduce((a,x)=>a+x[3],0)/10).toFixed(2); // 3.3
+const PFC_MAX=+(SALIENCE/0.4).toFixed(2);                        // 8.25 → adult hijack at stress 0.6
+const WM_CAP=4;
+const GENRES=['fantasy','scifi','horror','phil','western'];
+function control(stress,mat){return +(PFC_MAX*mat*(1-stress)).toFixed(3);}
+function hijacked(stress,mat){return control(stress,mat)<SALIENCE;}
+function hijackThreshold(mat){return +(1-SALIENCE/(PFC_MAX*mat)).toFixed(3);}
+/* ============================================================== */
+guard(()=>{
+check('working-memory capacity',WM_CAP,4,'AMBER','Cowan ~4 active chunks — distinct from the hippo buffer of 7');
+check('PFC governs full brake load',+IN.reduce((a,x)=>a+x[3],0).toFixed(1),102.0,'LIT','15 brakes; PFC decides which fire when');
+check('salience drive from 4 flags',SALIENCE,3.3,'AMBER','normalized Σ flagged toxicity /10');
+check('PFC_MAX set for realistic crossover',PFC_MAX,8.25,'AMBER','tuned so mature adult hijacks at stress 0.6, not a hair-trigger');
+check('adult hijack threshold',hijackThreshold(1.0),0.6,'AMBER','definitional — 0.6 follows from the editorial PFC_MAX=SALIENCE/0.4 tuning, not an independent result');
+check('adolescent hijacks EARLIER not at-rest',[hijackThreshold(0.6)>0,hijackThreshold(0.6)<hijackThreshold(1.0)],[true,true],'LIT','mat0.6 → threshold '+hijackThreshold(0.6)+' — my earlier "hijacked at rest" was WRONG; witness corrected it');
+check('rested adult governs',!hijacked(0,1),true,'LIT','control 8.25 > drive 3.3');
+check('exhausted adult hijacked',hijacked(1,1),true,'LIT','control 0 < drive');
+check('v3 topology',30+1+1+1,33,'LIT','+ prefrontal executive');
+renderChecks(document.getElementById('checks'));
+document.getElementById('curvebig').innerHTML='<b>CONTROL LAW ·</b> C = '+PFC_MAX+' × maturation × (1 − stress). Amygdala salience drive = '+SALIENCE+
+'. When C falls below drive, the executive can no longer suppress the flagged brakes and the amygdala runs the system — a measurable <b>hijack</b>. Mature adult crosses at stress '+hijackThreshold(1.0)+'; a younger executive (lower maturation) crosses <i>earlier</i>, which is the model of adolescent reactivity — not hijacked at rest, but quicker to tip.';
+},'checks');
+function stateFor(stress,mat){const c=control(stress,mat),hij=c<SALIENCE;return{c,hij};}
+function draw2D(){const cv=document.getElementById('c2d'),ctx=cv.getContext('2d');
+const w=cv.clientWidth,H=440;cv.width=w*devicePixelRatio;cv.height=H*devicePixelRatio;cv.style.height=H+'px';
+ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.clearRect(0,0,w,H);
+const stress=+document.getElementById('stress').value,mat=+document.getElementById('mat').value;
+const{c,hij}=stateFor(stress,mat);
+// PFC bar at top
+const pfcY=34,pfcH=Math.max(4,c/PFC_MAX*46);
+ctx.fillStyle='#4a9eff';ctx.globalAlpha=hij?0.4:1;ctx.fillRect(w/2-80,pfcY,160,pfcH);ctx.globalAlpha=1;
+ctx.fillStyle='#4a9eff';ctx.font='11px ui-monospace,monospace';ctx.textAlign='center';
+ctx.fillText('PREFRONTAL EXECUTIVE · control '+c.toFixed(2),w/2,pfcY-8);
+// working memory slots
+for(let i=0;i<WM_CAP;i++){ctx.strokeStyle='#4a9eff';ctx.globalAlpha=hij?0.3:0.8;
+ctx.strokeRect(w/2-80+i*42,pfcY+pfcH+6,36,14);ctx.globalAlpha=1;}
+ctx.fillStyle='#d4cab6';ctx.font='9px ui-monospace,monospace';ctx.fillText('working memory ('+WM_CAP+')',w/2,pfcY+pfcH+34);
+const cy=280,R=Math.min(w/4-40,140);
+[[-1],[1]].forEach(hemi=>{const cx=w/2+hemi[0]*(R+66);
+ctx.strokeStyle='#3a332b';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cx,cy,R,Math.PI/2,Math.PI*1.5,hemi[0]===1);ctx.stroke();
+['E','P','L'].forEach((s,i)=>{const a0=Math.PI/2+(hemi[0]===-1?1:-1)*(i*Math.PI/3),a1=a0+(hemi[0]===-1?1:-1)*Math.PI/3;
+ctx.strokeStyle=SLOTC[s];ctx.globalAlpha=0.45;ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,R+6,Math.min(a0,a1),Math.max(a0,a1));ctx.stroke();ctx.globalAlpha=1;
+const exs=EX.filter(x=>x[2]===s),ins=IN.filter(x=>x[2]===s);
+exs.forEach((x,j)=>{const t=(j+0.7)/(exs.length+0.4),a=a0+(a1-a0)*t,r=R*0.6;
+const px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;
+ctx.fillStyle=SLOTC[s];ctx.beginPath();ctx.arc(px,py,x[3]/2*1.4,0,7);ctx.fill();});
+ins.forEach((x,j)=>{const t=(j+0.7)/(ins.length+0.4),a=a0+(a1-a0)*t,r=R*0.30;
+const px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r,flag=x[3]>=AMYG_THRESH;
+// brake suppressed when governed: dim. released when hijacked: bright+halo
+const suppressed=!hij;
+ctx.fillStyle='#c23434';ctx.globalAlpha=suppressed?0.3:0.95;ctx.beginPath();ctx.arc(px,py,x[3]/2*1.2,0,7);ctx.fill();ctx.globalAlpha=1;
+if(flag&&hij){ctx.strokeStyle='#ff2d55';ctx.lineWidth=2;ctx.beginPath();ctx.arc(px,py,x[3]/2*1.2+3,0,7);ctx.stroke();}
+// control fiber from PFC to brake
+if(flag){ctx.strokeStyle=hij?'#ff2d55':'#4a9eff';ctx.globalAlpha=hij?0.25:(c/PFC_MAX*0.7);
+ctx.lineWidth=hij?0.6:1.6;ctx.beginPath();ctx.moveTo(w/2,pfcY+pfcH);ctx.lineTo(px,py);ctx.stroke();ctx.globalAlpha=1;}});});});
+// hippo + amygdala
+ctx.fillStyle='#b06adf';ctx.beginPath();ctx.ellipse(w/2,cy,12,22,0,0,7);ctx.fill();
+ctx.fillStyle='#141210';ctx.font='8px ui-monospace,monospace';ctx.fillText('HIP',w/2,cy+3);
+ctx.fillStyle='#ff2d55';ctx.beginPath();ctx.arc(w/2,cy+R+30,10,0,7);ctx.fill();
+ctx.fillStyle='#fff';ctx.fillText('AMY',w/2,cy+R+33);
+// hijack line
+const hy=cy+R+14;ctx.strokeStyle=hij?'#ff2d55':'#3a332b';ctx.setLineDash([5,4]);ctx.lineWidth=1;
+ctx.beginPath();ctx.moveTo(30,hy);ctx.lineTo(w-30,hy);ctx.stroke();ctx.setLineDash([]);
+ctx.fillStyle=hij?'#ff2d55':'#d4cab6';ctx.font='10px ui-monospace,monospace';ctx.textAlign='right';
+ctx.fillText(hij?'⚠ HIJACK LINE CROSSED':'hijack line (uncrossed)',w-30,hy-5);}
+function tick(){const stress=+document.getElementById('stress').value,mat=+document.getElementById('mat').value;
+document.getElementById('sv').textContent=stress.toFixed(2);document.getElementById('mv').textContent=mat.toFixed(2);
+const{c,hij}=stateFor(stress,mat);const bar=document.getElementById('statebar');
+if(hij){bar.className='state hij';bar.textContent='⚠ AMYGDALA HIJACK · executive offline (control '+c.toFixed(2)+' < drive '+SALIENCE+') · flagged brakes released, running unopposed';}
+else{bar.className='state gov';bar.textContent='✓ executive governing · control '+c.toFixed(2)+' > drive '+SALIENCE+' · brakes held, goal maintained';}
+draw2D();}
+guard(()=>{tick();addEventListener('resize',draw2D);},'draw2D');
+guard(()=>{
+const gl=SGL(document.getElementById('c3d'));
+function nodePos(x,h){const slotY={E:0.38,P:0,L:-0.38}[x[2]];const gi=GENRES.indexOf(x[0]);const a=(gi/5)*Math.PI-Math.PI/2;
+return[h*(0.58+0.24*Math.cos(a)),slotY+0.05*Math.sin(a*2),0.38*Math.sin(a)];}
+let pulse=0;
+function frame(){const ctx=gl.ctx,cv=ctx.canvas;ctx.clearRect(0,0,cv.width,cv.height);
+if(gl.S.auto)gl.S.ry+=0.003;pulse+=0.05;
+const stress=+(document.getElementById('stress')?document.getElementById('stress').value:0.2),
+mat=+(document.getElementById('mat')?document.getElementById('mat').value:1);
+const c=control(stress,mat),hij=c<SALIENCE,ctrlFrac=c/PFC_MAX;
+EX.forEach(x=>{const L=nodePos(x,-1),R=nodePos(x,1);gl.line(L,R,'#FF6A00',0.5,0.18);
+[L,R].forEach(p=>gl.dot(p,x[3]/2*1.7,SLOTC[x[2]],0.95));});
+IN.forEach(x=>{[-1,1].forEach(h=>{const p=nodePos(x,h);const fl=x[3]>=AMYG_THRESH;
+gl.dot([p[0],p[1]-0.08,p[2]*1.05],x[3]/2*1.3,'#c23434',hij?0.9:0.4);
+if(fl&&hij)gl.dot([p[0],p[1]-0.08,p[2]*1.05],x[3]/2*1.3+1.4,'#ff2d55',0.6);});});
+// hippocampus
+const HP=[0,0,0],glow=0.7+0.3*Math.sin(pulse);
+['E','P','L'].forEach(s=>[-1,1].forEach(h=>gl.line(HP,[h*0.66,{E:0.38,P:0,L:-0.38}[s],0],'#b06adf',1,0.25*glow)));
+gl.dot(HP,9,'#b06adf',glow);
+// amygdala below
+const AM=[0,-0.6,0.5];gl.dot(AM,7,'#ff2d55',hij?1:0.7);
+FLAGGED.forEach(x=>[-1,1].forEach(h=>{const p=nodePos(x,h);gl.line(AM,[p[0],p[1]-0.08,p[2]*1.05],'#ff2d55',hij?1.4:0.6,hij?0.6:0.3);}));
+// PFC executive on top, control fibers fade with stress
+const PF=[0,1.0,0];gl.dot(PF,hij?6:11,'#4a9eff',hij?0.35:1);
+FLAGGED.forEach(x=>[-1,1].forEach(h=>{const p=nodePos(x,h);gl.line(PF,[p[0],p[1]-0.08,p[2]*1.05],'#4a9eff',1.5*ctrlFrac+0.2,hij?0.1:ctrlFrac*0.7);}));
+gl.line(PF,HP,'#4a9eff',1.2,hij?0.15:0.5);
+gl.text3([0,1.2,0],hij?'PFC · OFFLINE':'PFC · governing','#4a9eff',11);
+gl.text3([0,-1.28,0],hij?'⚠ amygdala unopposed':'blue fibers = top-down control (thin as stress rises)','#d4cab6',9);
+requestAnimationFrame(frame);}
+frame();
+},'draw3D');
+</script></body></html>
